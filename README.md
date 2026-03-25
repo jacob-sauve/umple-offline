@@ -5,7 +5,7 @@ Umple visualisation plugin for Neovim; allows for keybound compilation of `.ump`
 
 ## Dependencies
 - [image.nvim](https://github.com/3rd/image.nvim) and its dependencies for image visualisation within nvim.
-  - _Note: this script works best when [kitty](https://github.com/kovidgoyal/kitty) is used as a backend, so consider installing kitty and setting it as backend default in image.nvim (this works even when using iterm2 or other terminals!)_
+  - _Note: this script works well when [kitty](https://github.com/kovidgoyal/kitty) is used as a backend, so consider installing kitty and setting it as backend default in image.nvim (this works even when using iterm2 or other terminals!)_
 - [umple](https://github.com/umple/Umple)
 - [graphviz](https://graphviz.org/download/)
 - Not necessary, but pairs nicely with [umple.nvim](https://cruise.umple.org/umple/Neovim.html)
