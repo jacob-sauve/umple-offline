@@ -47,9 +47,9 @@ function visualize(diagram_fname)
         vim.notify("Umple diagram generated. Opened using " .. PREVIEW_CMD, vim.log.levels.INFO)
         vim.fn.jobstart({ PREVIEW_CMD,  diagram_fname }, { detach = true })
         -- schedule tempfile deletion
+        os.remove(string.sub(diagram_fname, 0, -5)) --cleanup empty file
         vim.defer_fn(function()
             pcall(os.remove, diagram_fname)
-            pcall(os.remove, string.sub(diagram_fname, 0, -4)) --also cleanup empty file
             vim.schedule(function()
                 print("cleanup completed")
             end)
