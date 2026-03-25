@@ -15,19 +15,15 @@ Umple visualisation plugin for Neovim; allows for keybound compilation of `.ump`
 _The program assumes that these_ (except umple.nvim) _have been installed/configured._
 
 ## Installation
-Navigate into your `~/.config/nvim/lua` directory and clone this repo:
+Navigate into your `~/.config/nvim/` directory and clone this repo:
 ```
-cd ~/.config/nvim/lua
+cd ~/.config/nvim/
 git clone https://github.com/jacob-sauve/umple-offline/
 ```
 If you already have a `~/.config/nvim/ftplugin` folder, merge `ftplugin/umple.lua` into it!
 ```
-cat ~/.config/nvim/lua/umple-offline/ftplugin/umple.lua >> ~/.config/nvim/ftplugin/umple.lua
-rm -rf ~/.config/nvim/lua/umple-offline/ftplugin/
-```
-Require the main lua file in your preexisting `init.lua`. For instance, assuming it is at the root of your nvim directory:
-```
-echo 'require("umple-offline.src.umple_offline")' >> ~/.config/nvim/init.lua
+cat ~/.config/nvim/umple-offline/ftplugin/umple.lua >> ~/.config/nvim/ftplugin/umple.lua
+rm -rf ~/.config/nvim/umple-offline/
 ```
 You should be all set!
 
