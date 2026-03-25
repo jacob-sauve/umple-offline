@@ -5,6 +5,8 @@
 -- 2026-03-25
 --]]--
 
+_G.PREVIEW_CMD = "open" -- CHANGE THIS IF NOT USING OPEN
+_G.CLEANUP_DELAY = 1500 -- ms
 
 -- compile state machine
 vim.api.nvim_create_user_command(
@@ -31,34 +33,25 @@ vim.api.nvim_create_user_command(
         local output_name = os.tmpname() .. '.png'
         vim.cmd("silent !umple -g GvClassDiagram " .. fname)
         local diagram_fname = string.sub(fname, 0, -5) .. "cd.gv"
-        vim.cmd("silent !dot -Tpng " .. diagram_fname .. " -Gsize=4,5\\! -Gdpi=1000 -Gratio=fill -o" ..  output_name)
+        vim.cmd("silent !dot -Tpng " .. diagram_fname .. " -Gratio=fill -o " ..  output_name)
         visualize(output_name)
     end,
     {}
 )
 
 
+
 -- make visualisation window for compiled diagram
 -- (helper)
 function visualize(diagram_fname)
-        local term_buf = vim.api.nvim_create_buf(false, true)
-        local enter_window = true
-   
-        vim.api.nvim_open_win(term_buf, enter_window, {
-            relative="editor",
-            row = vim.o.lines - 1,
-            col = 0,
-            width = vim.o.columns,
-            height = math.floor((vim.o.lines -1) / 2),
-            border = "rounded",
-            title = "UmpleVisualizer (q to quit)"
-        })
-        vim.fn.jobstart("chafa " .. diagram_fname, {
-            term = true,
-            --on_exit = function()
-            --    vim.cmd(":q"); --auto exit when process terminates
-            --end,
-            vim.keymap.set({'i','n','v'}, 'q', '[[:q<CR>]]', {buffer=true, silent=true})
-        })
-        vim.cmd "startinsert"
+        vim.notify("Umple diagram generated. Opened using " .. PREVIEW_CMD, vim.log.levels.INFO)
+        vim.fn.jobstart({ PREVIEW_CMD,  diagram_fname }, { detach = true })
+        -- schedule tempfile deletion
+        vim.defer_fn(function()
+            pcall(os.remove, diagram_fname)
+            pcall(os.remove, string.sub(diagram_fname, 0, -4)) --also cleanup empty file
+            vim.schedule(function()
+                print("cleanup completed")
+            end)
+        end, CLEANUP_DELAY)
 end
