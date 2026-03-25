@@ -20,7 +20,7 @@ Navigate into your `~/.config/nvim/` directory and clone this repo:
 cd ~/.config/nvim/
 git clone https://github.com/jacob-sauve/umple-offline/
 ```
-If you already have a `~/.config/nvim/ftplugin` folder, merge `ftplugin/umple.lua` into it!
+Move `umple.lua` into your `~/.config/nvim/ftplugin` folder, merging with `ftplugin/umple.lua` if it exists!
 ```
 cat ~/.config/nvim/umple-offline/ftplugin/umple.lua >> ~/.config/nvim/ftplugin/umple.lua
 rm -rf ~/.config/nvim/umple-offline/
