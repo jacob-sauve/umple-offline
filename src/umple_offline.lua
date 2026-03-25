@@ -6,7 +6,7 @@
 --]]--
 
 _G.PREVIEW_CMD = "open" -- CHANGE THIS IF NOT USING OPEN
-_G.CLEANUP_DELAY = 1500 -- ms
+_G.CLEANUP_DELAY = 2500 -- ms
 
 -- compile state machine
 vim.api.nvim_create_user_command(
@@ -52,9 +52,9 @@ function visualize(diagram_fname)
     vim.fn.jobstart({ PREVIEW_CMD,  diagram_fname }, {
         detach = true,
         on_exit = function()
-            vim.schedule(function()
+            vim.defer_fn(function()
                 pcall(os.remove, diagram_fname)
-            end)
-        end
+            end, CLEANUP_DELAY)
+        end,
     })
 end
