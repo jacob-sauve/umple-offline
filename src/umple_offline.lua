@@ -1,12 +1,9 @@
 --[[
 -- UMPLE OFFLINE
 -- by Jacob Sauvé
--- v1.1.0
+-- v2.0.0
 -- 2026-03-25
 --]]--
-
-_G.PREVIEW_CMD = "open" -- CHANGE THIS IF NOT USING OPEN
-_G.CLEANUP_DELAY = 2500 -- ms
 
 -- compile state machine
 vim.api.nvim_create_user_command(
@@ -45,16 +42,19 @@ vim.api.nvim_create_user_command(
 -- (helper)
 
 function visualize(diagram_fname)
-    vim.notify("Umple diagram generated. Opened using " .. PREVIEW_CMD, vim.log.levels.INFO)
+    vim.notify("Umple diagram generated. Opened in vertical split")
     -- tempfile deletion
     os.remove(string.sub(diagram_fname, 0, -5))
-    -- start viewer and cleanup when it exits rather than after a delayj
-    vim.fn.jobstart({ PREVIEW_CMD,  diagram_fname }, {
-        detach = true,
-        on_exit = function()
-            vim.defer_fn(function()
-                pcall(os.remove, diagram_fname)
-            end, CLEANUP_DELAY)
+    -- start viewer and cleanup when it exits rather than after a delay
+    vim.cmd("vsplit " .. diagram_fname)
+    --del tmpfile on buffer exit automatically
+    local current_buffer = vim.api.nvim_get_current_buf() -- num of current buffer (i.e. img  buffer)
+    vim.api.nvim_create_autocmd("BufWipeout", {
+        buffer = current_buffer,
+        callback = function()
+            pcall(os.remove, diagram_fname)
         end,
+        once = true,
     })
+
 end
