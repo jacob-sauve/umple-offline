@@ -5,11 +5,11 @@ Umple visualisation plugin for Vim; allows for keybound compilation of `.ump` fi
 - A way to view images, which you should specify as the value of `src/umple_offline.lua.PREVIEW_CMD`. Default is MacOS's Preview (_`open` command_).
 - [umple](https://github.com/umple/Umple)
 - [graphviz](https://graphviz.org/download/)
-
+- Not necessary, but pairs nicely with [umple.nvim](https://cruise.umple.org/umple/Neovim.html)
 
 <br>
 
-_The program assumes that these have been installed/configured._
+_The program assumes that these_ (except umple.nvim) _have been installed/configured._
 
 ## Installation
 Navigate into your `~/.config/nvim/lua` directory and clone this repo:
