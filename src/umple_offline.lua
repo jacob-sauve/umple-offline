@@ -49,8 +49,15 @@ function visualize(diagram_fname)
     vim.cmd("vsplit " .. diagram_fname)
     --del tmpfile on buffer exit automatically
     local current_buffer = vim.api.nvim_get_current_buf() -- num of current buffer (i.e. img  buffer)
-    vim.api.nvim_create_autocmd("BufWipeout", {
+    vim.api.nvim_create_autocmd("BufUnload", {
         buffer = current_buffer,
+        callback = function()
+            pcall(os.remove, diagram_fname)
+        end,
+        once = true,
+    })
+    -- additional safety in case never unloads buffer
+    vim.api.nvim_create_autocmd("VimLeavePre", {
         callback = function()
             pcall(os.remove, diagram_fname)
         end,
