@@ -27,7 +27,7 @@ rm -rf ~/.config/nvim/lua/umple-offline/ftplugin/
 ```
 Require the main lua file in your preexisting `init.lua`. For instance, assuming it is at the root of your nvim directory:
 ```
-echo 'require("umple-offline.umple_offline")' >> ~/.config/nvim/init.lua
+echo 'require("umple-offline.src.umple_offline")' >> ~/.config/nvim/init.lua
 ```
 You should be all set!
 
