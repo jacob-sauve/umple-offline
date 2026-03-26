@@ -77,6 +77,7 @@ vim.api.nvim_buf_create_user_command(
 	"GenerateJava",
 	function()
       vim.cmd("silent !umple -g Java " .. FNAME)
+      vim.notify("Java code generated in current directory")
 	end,
 	{}
 )
