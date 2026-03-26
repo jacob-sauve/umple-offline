@@ -36,8 +36,10 @@ vim.g.mapleader = " "
 ### Hotkeys
 - `<leader>ucd` --> generates and opens an Umple Class Diagram of the active file (_the one in the buffer when the command is called_)
 - `<leader>usm` --> generates and opens an Umple State Machine of the active file
+- `<leader>ugj` --> generates Java code corresponding to the active file into current directory
 
 ### Full Commands
 In their unabridged form, i.e. without the keybinds from `ftplugin/umple.lua`:
-- `:UmpleClassDiagram` --> same as `<leader>ucd` above
-- `:UmpleStateMachine` --> same as `<leader>usm` above
+- `:UmpleClassDiagram`  --> same as `<leader>ucd` above
+- `:UmpleStateMachine`  --> same as `<leader>usm` above
+- `:GenerateJava`       --> same sa `<leader>ugj` above
