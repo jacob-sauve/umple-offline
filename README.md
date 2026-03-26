@@ -24,7 +24,7 @@ Move `umple.lua` into your `~/.config/nvim/ftplugin` folder:
 ```
 mkdir -p ~/.config/nvim/ftplugin
 mv -i ~/.config/nvim/umple-offline/ftplugin/umple.lua ~/.config/nvim/ftplugin/umple.lua
-rmdir -r ~/.config/nvim/umple-offline/ftplugin
+rm -r ~/.config/nvim/umple-offline/
 ```
 You should be all set!
 
