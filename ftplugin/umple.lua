@@ -84,6 +84,13 @@ vim.api.nvim_buf_create_user_command(
 
 
 -- set buffer-specific keybinds when in umple files
-vim.keymap.set('n', '<leader>usm', [[:UmpleStateMachine<CR>]], { buffer = true })
-vim.keymap.set('n', '<leader>ucd', [[:UmpleClassDiagram<CR>]], { buffer = true })
-vim.keymap.set('n', '<leader>ugj', [[:GenerateJava<CR>]], { buffer = true })
+vim.keymap.set('n', '<leader>usm', [[:UmpleStateMachine<CR>]], {
+    buffer = true,
+    desc = "view state machine diagram from current .ump file"
+})
+vim.keymap.set('n', '<leader>ucd', [[:UmpleClassDiagram<CR>]], {
+    buffer = true,  desc = "view class diagram from current .ump file"
+})
+vim.keymap.set('n', '<leader>ugj', [[:GenerateJava<CR>]], {
+    buffer = true, desc = "generate java code from current .ump file"
+})
