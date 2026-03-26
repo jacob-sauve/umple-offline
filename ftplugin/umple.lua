@@ -5,8 +5,9 @@
 -- 2026-03-25
 --]]--
 
--- get buffer number for command locality
+-- get buffer number & fname for command locality
 _G.BUF_NUMBER = vim.api.nvim_get_current_buf()
+_G.FNAME = vim.api.nvim_buf_get_name(BUF_NUMBER)
 
 -- compile state machine
 vim.api.nvim_buf_create_user_command(
@@ -14,11 +15,10 @@ vim.api.nvim_buf_create_user_command(
     "UmpleStateMachine",
     function()
         -- current filename
-        local fname = vim.api.nvim_buf_get_name(0)
         local output_name = os.tmpname() .. '.png'
-        vim.cmd("silent !umple -g GvStateDiagram " .. fname)
+        vim.cmd("silent !umple -g GvStateDiagram " .. FNAME)
         -- reconstruct generated diagram name
-        local diagram_fname = string.sub(fname, 0, -4) .. "gv"
+        local diagram_fname = string.sub(FNAME, 0, -4) .. "gv"
         vim.cmd("silent !dot -Tpng " .. diagram_fname .. " -Gdpi=1000 -Gratio=fill -o" ..  output_name)
         visualize(output_name)
     end,
@@ -31,10 +31,9 @@ vim.api.nvim_buf_create_user_command(
     "UmpleClassDiagram",
     function()
         -- current filename
-        local fname = vim.api.nvim_buf_get_name(0)
         local output_name = os.tmpname() .. '.png'
-        vim.cmd("silent !umple -g GvClassDiagram " .. fname)
-        local diagram_fname = string.sub(fname, 0, -5) .. "cd.gv"
+        vim.cmd("silent !umple -g GvClassDiagram " .. FNAME)
+        local diagram_fname = string.sub(FNAME, 0, -5) .. "cd.gv"
         vim.cmd("silent !dot -Tpng " .. diagram_fname .. " -Gratio=fill -o " ..  output_name)
         visualize(output_name)
     end,
@@ -53,9 +52,9 @@ function visualize(diagram_fname)
     -- start viewer and cleanup when it exits rather than after a delay
     vim.cmd("vsplit " .. diagram_fname)
     --del tmpfile on buffer exit automatically
-    local current_buffer = vim.api.nvim_get_current_buf() -- num of current buffer (i.e. img  buffer)
+    local img_buffer = vim.api.nvim_get_current_buf() -- num of current buffer (i.e. img  buffer)
     vim.api.nvim_create_autocmd("BufUnload", {
-        buffer = current_buffer,
+        buffer = img_buffer,
         callback = function()
             pcall(os.remove, diagram_fname)
         end,
@@ -73,19 +72,17 @@ end
 
 
 -- generate java files from .ump file
-
 vim.api.nvim_buf_create_user_command(
 	BUF_NUMBER,
 	"GenerateJava",
 	function()
-		local fname = vim.api.nvim_buf_get_name(0)
-        vim.cmd("silent !umple -g Java " .. fname)
+      vim.cmd("silent !umple -g Java " .. FNAME)
 	end,
 	{}
 )
 
 
 -- set buffer-specific keybinds when in umple files
-vim.keymap.set('n', '<leader>usm', [[:UmpleStateMachine<CR>]], {buffer=true})
-vim.keymap.set('n', '<leader>ucd', [[:UmpleClassDiagram<CR>]], {buffer=true})
-vim.keymap.set('n', '<leader>ugj', [[:GenerateJava<cr>]])
+vim.keymap.set('n', '<leader>usm', [[:UmpleStateMachine<CR>]], { buffer = true })
+vim.keymap.set('n', '<leader>ucd', [[:UmpleClassDiagram<CR>]], { buffer = true })
+vim.keymap.set('n', '<leader>ugj', [[:GenerateJava<CR>]], { buffer = true })
